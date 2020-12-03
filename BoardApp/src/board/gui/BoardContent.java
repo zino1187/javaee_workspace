@@ -7,12 +7,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import board.model.Notice;
+
 public class BoardContent extends Page{
 	JTextField t_author;
 	JTextField t_title;
 	JTextArea area;
 	JScrollPane scroll;
 	JButton bt_list, bt_edit, bt_del;
+	Notice notice;
 	
 	public BoardContent(BoardMain boardMain) {
 		super(boardMain);
@@ -41,7 +44,26 @@ public class BoardContent extends Page{
 		
 	}
 	
+	//컴포넌트에 데이터 채워넣기!!
+	//이 메서드를 호출하는 者는 , 한건의 데이터를 VO담아서 호출하면 된다!!!
+	public void setData(Notice notice) {
+		this.notice= notice;//나중에 써먹을거 대비해서 보관해놓음!!
+		t_author.setText(notice.getAuthor());
+		t_title.setText(notice.getTitle());
+		area.setText(notice.getContent());
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

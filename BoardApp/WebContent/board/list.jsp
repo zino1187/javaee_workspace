@@ -57,11 +57,11 @@ $(function(){
   <tr>
     <td>26</td>
     <td>
-		<a href="/board/detail.jsp?notice_id=<%=rs.getInt("notice_id")%>"><%=rs.getString("title")%></a>
+		<a href="/board/detail.jsp?notice_id=<%=notice.getNotice_id()%>"><%=notice.getTitle()%></a>
 	</td>
-    <td><%=rs.getString("author")%></td>
-	<td><%=rs.getString("regdate")%></td>
-	<td><%=rs.getInt("hit")%></td>
+    <td><%= notice.getAuthor()%></td>
+	<td><%=notice.getRegdate()%></td>
+	<td><%=notice.getHit()%></td>
   </tr>
 	<%}%>
   <tr>
@@ -79,6 +79,3 @@ $(function(){
 
 </body>
 </html>
-<%
-	dbManager.release(con, pstmt, rs);
-%>
