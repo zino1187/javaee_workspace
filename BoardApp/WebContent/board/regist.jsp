@@ -2,13 +2,12 @@
 <%@ page import="java.sql.DriverManager"%>
 <%@ page import="java.sql.Connection"%>
 <%@ page import="java.sql.PreparedStatement"%>
-<%!
-	//선언부 영역: 멤버변수와 멤버메서드를 정의하는 영역 
-	String url="jdbc:mariadb://localhost:3306/db1202";
-	String user="root";
-	String password="1234";
-%>
+<%@ page import="board.model.NoticeDAO"%>
+<%@ page import="board.model.Notice"%>
+<%@ include file="/inc/lib.jsp" %>
 <%
+	NoticeDAO noticeDAO=new NoticeDAO();
+
 	//클라이언트가 전송한 파라미터를 받아서  mysql 에 넣을 예정이므로, 
 	//별도의 디자인 코드는 필요하지 않음 ..
 	out.print("이 페이지에서 클라이언트가 전송한 파라미터들을, 데이터베이스에 넣을 예정");
@@ -22,65 +21,32 @@
 	String author = request.getParameter("author"); //작성자
 	String title = request.getParameter("title");//제목
 	String content = request.getParameter("content");//내용
-
-	
 	out.print("전송한 author : "+author);
 	out.print("전송한 title : "+title);
 	out.print("전송한 content : "+content);
-
-	//mysql insert 진행한다!!!
-	//드라이버 로드, 접속, 쿼리, 닫기 
-	Class.forName("org.mariadb.jdbc.Driver");
-	out.print("드라이버 로드 성공");
-
-	Connection con=null;
-	PreparedStatement pstmt=null;
-
-	con=DriverManager.getConnection(url, user, password);
-	if(con==null){
-%>
-	<script>
-		alert("접속실패");
-		history.back();
-	</script>
-<%
+	
+	//등록
+	Notice notice = new Notice();
+	notice.setAuthor(author);
+	notice.setTitle(title);
+	notice.setContent(content);
+	
+	int result=noticeDAO.regist(notice); //vo,dto
+	
+	if(result==0){
+		//욕하고 뒤로가기 
+		out.print(getMsgBack("등록실패"));
 	}else{
+		//메세지 출력후 list.jsp 요청
+		out.print(getMsgURL("등록성공","/board/list.jsp"));
+	}
 %>
-	<script>
-		alert("접속성공");
-	</script>		
-<%
-		String sql="insert into notice(author, title, content) values(?,?,?)";
-		pstmt=con.prepareStatement(sql);
-		
-		//바인드 변수값 지정 
-		pstmt.setString(1, author);
-		pstmt.setString(2, title);
-		pstmt.setString(3, content);
 
-		int result = pstmt.executeUpdate();
 
-		if(result==0){
-%>
-		<script>
-			alert("등록실패");
-			history.back();
-		</script>
-<%
-		}else{
-%>
-		<script>
-			alert("등록성공");
-			location.href="/board/list.jsp";//list.jsp를 요청해야 한다...
-		</script>
-<%
-		}
-	}
-	//db에 연동에 사용된 모든 객체 닫기 
-	if(pstmt!=null){
-		pstmt.close();
-	}
-	if(con!=null){
-		con.close();
-	}
-%>
+
+
+
+
+
+
+

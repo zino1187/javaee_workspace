@@ -1,20 +1,11 @@
+<%@page import="board.model.NoticeDAO"%>
 <%@ page contentType="text/html;charset=utf-8"%>
-<%@ page import="db.DBManager"%>
 <%@ page import="java.sql.*"%>
 <%
 	String notice_id = request.getParameter("notice_id");
-	String sql="select * from notice where notice_id="+notice_id;
-	out.print("실행될 예정 SQL은 "+sql);
 	
-	DBManager dbManager = new DBManager();
-
-	Connection con=null;
-	PreparedStatement pstmt=null;
-	ResultSet rs=null;
-
-	con=dbManager.getConnection();//접속 후 그 결과 가져오기
-	pstmt=con.prepareStatement(sql);//쿼리준비
-	rs=pstmt.executeQuery();//쿼리수행
+	NoticeDAO noticeDAO = new NoticeDAO();
+	ResultSet rs = noticeDAO.select(Integer.parseInt(notice_id));
 
 	rs.next(); //커서 한컨 전진!!!
 %>
@@ -122,6 +113,3 @@ $(function(){
 </div>
 </body>
 </html>
-<%
-	dbManager.release(con , pstmt, rs);
-%>

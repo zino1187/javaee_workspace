@@ -7,6 +7,7 @@ package board.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import db.DBManager;
@@ -39,4 +40,49 @@ public class NoticeDAO {
 		}	
 		return result;
 	}	
+	
+	
+	//게시물 1건 가져오기(상세보기)
+	public ResultSet select(int notice_id) {
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		String sql="select * from notice where notice_id=?";
+		
+		con=dbManager.getConnection(); //접속객체 얻기 
+		try {
+			pstmt=con.prepareStatement(sql); //쿼리준비
+			pstmt.setInt(1, notice_id); //바인드 변수값 지정
+			rs=pstmt.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			dbManager.release(con, pstmt, rs);
+		}
+		return rs;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
