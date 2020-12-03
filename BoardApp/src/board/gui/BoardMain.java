@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import javax.swing.JFrame;
 
 public class BoardMain extends JFrame{
+	
 	//사용할 페이지 구성 
 	Page[] pageList=new Page[Pages.values().length]; //enum에 등록된 페이지 만큼생성
 	
@@ -19,11 +20,25 @@ public class BoardMain extends JFrame{
 		//페이지들 부착 
 		for(Page page: pageList) {
 			add(page);
+			page.setVisible(false); //모두 일단 안보이게 처리
 		}
+		
+		//디폴트로 보여주고 싶은 페이지
+		showPage(Pages.valueOf("BoardWrite").ordinal());
 		
 		setSize(900,700);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+	}
+	
+	public void showPage(int viewPage) { //보여주고 싶은 페이지 인수로 전달
+		for(int i=0;i<pageList.length;i++) {
+			if(viewPage==i) {
+				pageList[i].setVisible(true);
+			}else {
+				pageList[i].setVisible(false);
+			}
+		}
 	}
 	
 	public static void main(String[] args) {
@@ -31,3 +46,8 @@ public class BoardMain extends JFrame{
 	}
 
 }
+
+
+
+
+

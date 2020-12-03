@@ -24,9 +24,9 @@ public class BoardWrite extends Page{
 		bt = new JButton("등록");
 		
 		//스타일
-		t_author.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth()-10, (int)this.getPreferredSize().getHeight()-10));
-		t_title.setPreferredSize(new Dimension(boardMain.getWidth()-10, 25));
-		scroll.setPreferredSize(new Dimension(boardMain.getWidth()-10, 600));
+		t_author.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth()-10, 25));
+		t_title.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth()-10, 25));
+		scroll.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth()-10, 600));
 		
 		//조립 
 		add(t_author);

@@ -21,7 +21,8 @@ public class BoardList extends Page{
 		bt = new JButton("글등록");
 		
 		//스타일
-		this.setBackground(Color.YELLOW);
+		scroll.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth(), 600));
+		//this.setBackground(Color.YELLOW);
 		
 		//조립
 		add(scroll);
