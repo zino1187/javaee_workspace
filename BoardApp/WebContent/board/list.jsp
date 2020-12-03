@@ -1,18 +1,14 @@
+<%@page import="board.model.Notice"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="board.model.NoticeDAO"%>
 <%@ page contentType="text/html;charset=utf-8"%>
 <%@ page import="db.DBManager"%>
 <%@ page import="java.sql.Connection"%>
 <%@ page import="java.sql.PreparedStatement"%>
 <%@ page import="java.sql.ResultSet"%>
 <%
-	DBManager dbManager = new DBManager();
-	Connection con=dbManager.getConnection();
-	PreparedStatement pstmt=null;
-	ResultSet rs=null;
-
-	//select 
-	String sql="select * from notice";
-	pstmt=con.prepareStatement(sql); //쿼리준비
-	rs = pstmt.executeQuery();//select문 실행
+	NoticeDAO noticeDAO = new NoticeDAO();
+	ArrayList<Notice> list = noticeDAO.selectAll();
 %>
 <!DOCTYPE html>
 <html>
@@ -56,7 +52,8 @@ $(function(){
 	<th>조회수</th>
   </tr>
 
-	<%while(rs.next()){%>
+	<%for(int i=0;i<list.size();i++){%>
+	<%Notice notice=list.get(i); //각 칸에 들어간 vo 끄집어 내기%>
   <tr>
     <td>26</td>
     <td>
