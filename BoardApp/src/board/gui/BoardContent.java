@@ -25,11 +25,10 @@ public class BoardContent extends Page{
 		bt_edit = new JButton("수정");
 		bt_del = new JButton("삭제");
 		
-		System.out.println(this.getPreferredSize().getWidth());
 		//스타일
-		t_author.setPreferredSize(new Dimension(boardMain.getWidth()-10, 25));
-		t_title.setPreferredSize(new Dimension(boardMain.getWidth()-10, 25));
-		scroll.setPreferredSize(new Dimension(boardMain.getWidth()-10, 600));
+		t_author.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth()-10, 25));
+		t_title.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth()-10, 25));
+		scroll.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth()-10, 500));
 		
 		//조립 
 		add(t_author);

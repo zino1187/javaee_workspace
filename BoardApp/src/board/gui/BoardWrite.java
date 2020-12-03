@@ -26,7 +26,7 @@ public class BoardWrite extends Page{
 		//스타일
 		t_author.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth()-10, 25));
 		t_title.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth()-10, 25));
-		scroll.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth()-10, 600));
+		scroll.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth()-10, 500));
 		
 		//조립 
 		add(t_author);

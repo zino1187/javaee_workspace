@@ -24,7 +24,7 @@ public class BoardMain extends JFrame{
 		}
 		
 		//디폴트로 보여주고 싶은 페이지
-		showPage(Pages.valueOf("BoardWrite").ordinal());
+		showPage(Pages.valueOf("BoardContent").ordinal());
 		
 		setSize(900,700);
 		setVisible(true);
