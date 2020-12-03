@@ -4,16 +4,20 @@ import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
 
+import db.DBManager;
+
 public class BoardMain extends JFrame{
 	
 	//사용할 페이지 구성 
 	Page[] pageList=new Page[Pages.values().length]; //enum에 등록된 페이지 만큼생성
+	DBManager dbManager;
 	
 	public BoardMain() {
 		//페이지 생성 
 		pageList[0] = new BoardList(this);
 		pageList[1] = new BoardWrite(this);
 		pageList[2] = new BoardContent(this);
+		dbManager = new DBManager();
 		
 		setLayout(new FlowLayout()); //프레임에 여러개의 컴포넌트가 부착되려면 플로우로~
 		
@@ -24,7 +28,7 @@ public class BoardMain extends JFrame{
 		}
 		
 		//디폴트로 보여주고 싶은 페이지
-		showPage(Pages.valueOf("BoardContent").ordinal());
+		showPage(Pages.valueOf("BoardList").ordinal());
 		
 		setSize(900,700);
 		setVisible(true);

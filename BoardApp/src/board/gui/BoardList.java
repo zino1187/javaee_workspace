@@ -27,8 +27,19 @@ public class BoardList extends Page{
 		//Á¶¸³
 		add(scroll);
 		add(bt);
+		
+		bt.addActionListener((e)->{
+			boardMain.showPage(Pages.valueOf("BoardWrite").ordinal());
+		});
 	}
 	
 }
+
+
+
+
+
+
+
 
 
