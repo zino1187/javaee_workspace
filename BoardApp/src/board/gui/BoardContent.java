@@ -3,11 +3,13 @@ package board.gui;
 import java.awt.Dimension;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import board.model.Notice;
+import board.model.NoticeDAO;
 
 public class BoardContent extends Page{
 	JTextField t_author;
@@ -15,7 +17,8 @@ public class BoardContent extends Page{
 	JTextArea area;
 	JScrollPane scroll;
 	JButton bt_list, bt_edit, bt_del;
-	Notice notice;
+	Notice notice; //VO
+	NoticeDAO noticeDAO;
 	
 	public BoardContent(BoardMain boardMain) {
 		super(boardMain);
@@ -27,6 +30,8 @@ public class BoardContent extends Page{
 		bt_list = new JButton("목록으로");
 		bt_edit = new JButton("수정");
 		bt_del = new JButton("삭제");
+		noticeDAO = new NoticeDAO();//DAO 생성하기 
+		
 		
 		//스타일
 		t_author.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth()-10, 25));
@@ -42,6 +47,33 @@ public class BoardContent extends Page{
 		add(bt_edit);
 		add(bt_del);
 		
+		//목록 버튼에 리스너연결
+		bt_list.addActionListener((e)->{
+			boardMain.showPage(Pages.valueOf("BoardList").ordinal());
+		});
+		
+		//수정 버튼에 리스너연결 
+		bt_edit.addActionListener((e)->{
+			//한번 물어보고 수정하자!!!
+			if(JOptionPane.showConfirmDialog(BoardContent.this, "수정하실래요?")==JOptionPane.OK_OPTION) {
+				edit();
+			}
+		});
+	}
+	
+	public void edit() {
+		//DAO를 이용하여 수정작업 수행
+		//작성자, 제목, 내용만 교체 
+		notice.setAuthor(t_author.getText());//새론값
+		notice.setTitle(t_title.getText());// 새론값 
+		notice.setContent(area.getText());//새론값
+		
+		int result = noticeDAO.update(notice);
+		if(result==0) {
+			JOptionPane.showMessageDialog(this, "수정실패");
+		}else {
+			JOptionPane.showMessageDialog(this, "수정성공");
+		}
 	}
 	
 	//컴포넌트에 데이터 채워넣기!!
