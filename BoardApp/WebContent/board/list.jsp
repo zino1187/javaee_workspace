@@ -9,6 +9,7 @@
 <%
 	NoticeDAO noticeDAO = new NoticeDAO();
 	ArrayList<Notice> list = noticeDAO.selectAll();
+	//
 %>
 <!DOCTYPE html>
 <html>
