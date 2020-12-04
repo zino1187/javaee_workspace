@@ -53,7 +53,8 @@
 		
 		//클라이언트에게 전송할 응답정보를 가진 객체,
 		//클라이언트의 브라우저로하여금, 지정한 URL로 재접속을 시도하게 만듦 
-		response.sendRedirect("/gallery/photo_list.jsp");
+		//response.sendRedirect("/gallery/photo_list.jsp");
+		out.print("업로드 완료");
 	}catch(IOException e){
 		e.printStackTrace();//콘솔로그에 에러 출력, 관리자에게 이메일, sms..
 		out.print("업로드 용량이 너무 큽니다");//서블릿 쓰레드 에러...(servlet 클래스를 다뤄야 함..)
