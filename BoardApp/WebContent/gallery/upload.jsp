@@ -1,3 +1,5 @@
+<%@page import="java.io.File"%>
+<%@page import="common.FileManager"%>
 <%@page import="java.io.IOException"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@page import="com.oreilly.servlet.MultipartRequest"%>
@@ -36,12 +38,31 @@
 		String ori= multi.getOriginalFileName("photo");
 		out.print("당신이 업로드한 로컬 원래 파일명은 "+ori);
 		
+		String ext = FileManager.getExtend(ori); 
 		
+		String filename = time+"."+ext;
+		out.print("내가 조작한 파일명은 "+filename);
+		
+		//조작한 이름으로 파일명을 바꾸어야 함
+		//결국 파일을 다루어야 하므로 javaSE의 File 클래스를 이용하면 된다!!!
+		//File 클래스의 .api문서를 찾아서, 파일명을 바꾸는 메서드를 찾아보세요, 찾으면 제보하기!!!!
+		//스트림과 상관없고, 파일을 제어하는 거라서 파일 클래스의 메서드를 찾아보세요 
+		//누가 누가 빨리 찾나, 최시씨가 잘 찾았어요, renameTo라는 메서드를 열어보세요
+		File savedFile = multi.getFile("photo");
+		savedFile.renameTo(new File(saveDirectory+"/"+filename));//파일명 교체!!
+		
+		//클라이언트에게 전송할 응답정보를 가진 객체,
+		//클라이언트의 브라우저로하여금, 지정한 URL로 재접속을 시도하게 만듦 
+		response.sendRedirect("/gallery/photo_list.jsp");
 	}catch(IOException e){
 		e.printStackTrace();//콘솔로그에 에러 출력, 관리자에게 이메일, sms..
 		out.print("업로드 용량이 너무 큽니다");//서블릿 쓰레드 에러...(servlet 클래스를 다뤄야 함..)
 	}
 %>
+
+
+
+
 
 
 
