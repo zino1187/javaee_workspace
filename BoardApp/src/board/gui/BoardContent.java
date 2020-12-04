@@ -59,8 +59,30 @@ public class BoardContent extends Page{
 				edit();
 			}
 		});
+		//삭제 버튼에 리스너연결 
+		bt_del.addActionListener((e)->{
+			if(JOptionPane.showConfirmDialog(BoardContent.this, "삭제하실래요?")==JOptionPane.OK_OPTION) {
+				del();
+			}
+			
+		});
 	}
 	
+	public void del() {
+		//삭제하고 목록보여주기 
+		int result = noticeDAO.delete(notice.getNotice_id());
+		if(result==0) {
+			JOptionPane.showMessageDialog(this, "삭제실패");		
+		}else {
+			JOptionPane.showMessageDialog(this, "삭제성공");
+			BoardList boardList=(BoardList)boardMain.pageList[Pages.valueOf("BoardList").ordinal()];
+			boardList.getList();//데이터 가져오기
+			boardList.table.updateUI();//화면 갱신
+			
+			boardMain.showPage(Pages.valueOf("BoardList").ordinal());
+		}
+	}
+
 	public void edit() {
 		//DAO를 이용하여 수정작업 수행
 		//작성자, 제목, 내용만 교체 
