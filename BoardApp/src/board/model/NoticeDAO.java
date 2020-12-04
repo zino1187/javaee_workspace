@@ -141,6 +141,26 @@ public class NoticeDAO {
 		}
 		return result;
 	}
+	
+	//삭제하기 
+	public int delete(int notice_id) {
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		String sql="delete from notice where notice_id=?";
+		int result=0;
+		
+		con=dbManager.getConnection();
+		try {
+			pstmt=con.prepareStatement(sql);//준비
+			pstmt.setInt(1, notice_id);
+			result = pstmt.executeUpdate();//수행
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			dbManager.release(con, pstmt);
+		}
+		return result;
+	}
 }
 
 
