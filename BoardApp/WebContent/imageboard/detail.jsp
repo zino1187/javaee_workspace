@@ -68,7 +68,8 @@ $(function(){
 		if(confirm("수정하시겠어요?")){
 			$("form").attr({
 				method:"post",
-				action:"/board/edit.jsp"
+				encoding:"multipart/form-data",
+				action:"/imageboard/edit.jsp"
 			});
 			$("form").submit(); //전송행위!!!
 		}
@@ -102,7 +103,14 @@ $(function(){
 
 	<label for="subject">Content</label>
     <textarea id="subject" name="content" placeholder="Write something.." style="height:200px"><%=board.getContent()%></textarea>
-
+	
+	<img src="/data/<%=board.getFilename()%>" width="100px">
+	
+	<!-- 만일 이미지를 선택하면, 이미지를 교체해야 한다 , 교체하지 않으면 db에 기존 파일명 유지-->
+	<input type="file" name="photo"> 
+	
+	<p>
+	
     <input type="button" value="목록으로">
 	<input type="button" value="수정하기">
 	<input type="button" value="삭제하기">
