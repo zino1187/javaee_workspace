@@ -59,13 +59,3 @@
 		out.print(getMsgURL("등록성공", "/imageboard/list.jsp"));
 	}
 %>
-
-
-
-
-
-
-
-
-
-

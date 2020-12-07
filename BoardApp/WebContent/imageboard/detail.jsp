@@ -68,7 +68,7 @@ $(function(){
 		if(confirm("수정하시겠어요?")){
 			$("form").attr({
 				method:"post",
-				encoding:"multipart/form-data",
+				enctype:"multipart/form-data",
 				action:"/imageboard/edit.jsp"
 			});
 			$("form").submit(); //전송행위!!!
@@ -93,7 +93,7 @@ $(function(){
 
 <div class="container">
   <form>
-	<input type="hidden" name="notice_id" value="<%=board.getBoard_id()%>">
+	<input type="hidden" name="board_id" value="<%=board.getBoard_id()%>">
 
     <label for="fname">First Name</label>
     <input type="text" id="fname" name="author" value="<%=board.getAuthor()%>">
@@ -107,7 +107,8 @@ $(function(){
 	<img src="/data/<%=board.getFilename()%>" width="100px">
 	
 	<!-- 만일 이미지를 선택하면, 이미지를 교체해야 한다 , 교체하지 않으면 db에 기존 파일명 유지-->
-	<input type="file" name="photo"> 
+	<input type="file" name="photo">
+	<input type="hidden" name="filename" value="<%=board.getFilename()%>"> 
 	
 	<p>
 	
