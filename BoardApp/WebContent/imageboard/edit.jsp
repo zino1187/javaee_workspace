@@ -53,8 +53,6 @@
 				File file = new File(destFile);
 				item.write(file);//물리적 저장 시점!!!	
 				board.setFilename(newName);//vo 에 파일명 값을 담자!!			
-			}else{
-				break;
 			}
 		}
 	}
