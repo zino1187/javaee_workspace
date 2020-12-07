@@ -24,6 +24,12 @@ public class QnADAO {
 			pstmt.setString(2, qna.getTitle());
 			pstmt.setString(3, qna.getContent());
 			result=pstmt.executeUpdate();//실행
+			
+			//team을 방금 들어간 레코드에 의해 발생한 pk 값으로 업데이트!!!
+			sql="update qna set team=(select last_insert_id()) where qna_id=(select last_insert_id())";
+			pstmt=con.prepareStatement(sql); //쿼리문 1:1 대응하게!!
+			pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
