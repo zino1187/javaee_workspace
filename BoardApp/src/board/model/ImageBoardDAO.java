@@ -83,7 +83,9 @@ public class ImageBoardDAO {
 		con=dbManager.getConnection();
 		try {
 			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, board_id);
 			rs=pstmt.executeQuery();
+			
 			if(rs.next()) { //레코드가 있다면..
 				board = new ImageBoard();
 				board.setBoard_id(rs.getInt("board_id"));

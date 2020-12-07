@@ -61,7 +61,7 @@ $(function(){
     <td>26</td>
     <td><img src="/data/<%=board.getFilename() %>" width="50px"></td>
     <td>
-		<a href="/imageboard/detail.jsp?notice_id=<%=board.getBoard_id()%>"><%=board.getTitle()%></a>
+		<a href="/imageboard/detail.jsp?board_id=<%=board.getBoard_id()%>"><%=board.getTitle()%></a>
 	</td>
     <td><%= board.getAuthor()%></td>
 	<td><%=board.getRegdate()%></td>

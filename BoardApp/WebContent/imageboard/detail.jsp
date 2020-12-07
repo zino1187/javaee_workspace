@@ -1,11 +1,13 @@
+<%@page import="board.model.ImageBoard"%>
+<%@page import="board.model.ImageBoardDAO"%>
 <%@page import="board.model.Notice"%>
 <%@page import="board.model.NoticeDAO"%>
 <%@ page contentType="text/html;charset=utf-8"%>
 <%@ page import="java.sql.*"%>
 <%
-	String notice_id = request.getParameter("notice_id");
-	NoticeDAO noticeDAO = new NoticeDAO();
-	Notice notice = noticeDAO.select(Integer.parseInt(notice_id));
+	String board_id = request.getParameter("board_id");
+	ImageBoardDAO boardDAO = new ImageBoardDAO();
+	ImageBoard board = boardDAO.select(Integer.parseInt(board_id));
 %>
 <!DOCTYPE html>
 <html>
@@ -90,16 +92,16 @@ $(function(){
 
 <div class="container">
   <form>
-	<input type="hidden" name="notice_id" value="<%=notice.getNotice_id()%>">
+	<input type="hidden" name="notice_id" value="<%=board.getBoard_id()%>">
 
     <label for="fname">First Name</label>
-    <input type="text" id="fname" name="author" value="<%=notice.getAuthor()%>">
+    <input type="text" id="fname" name="author" value="<%=board.getAuthor()%>">
 
     <label for="lname">title</label>
-    <input type="text" id="lname" name="title" value="<%=notice.getTitle()%>">
+    <input type="text" id="lname" name="title" value="<%=board.getTitle()%>">
 
 	<label for="subject">Content</label>
-    <textarea id="subject" name="content" placeholder="Write something.." style="height:200px"><%=notice.getContent()%></textarea>
+    <textarea id="subject" name="content" placeholder="Write something.." style="height:200px"><%=board.getContent()%></textarea>
 
     <input type="button" value="목록으로">
 	<input type="button" value="수정하기">
