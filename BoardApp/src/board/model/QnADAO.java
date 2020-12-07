@@ -2,7 +2,9 @@ package board.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import db.DBManager;
@@ -19,7 +21,6 @@ public class QnADAO {
 		String sql="insert into qna(writer, title ,content) values(?,?,?)";
 		try {
 			con=dbManager.getConnection();
-			con.setAutoCommit(false);
 			pstmt=con.prepareStatement(sql);
 			pstmt.setString(1, qna.getWriter());
 			pstmt.setString(2, qna.getTitle());
@@ -27,17 +28,12 @@ public class QnADAO {
 			result=pstmt.executeUpdate();//실행
 			
 			//team을 방금 들어간 레코드에 의해 발생한 pk 값으로 업데이트!!!
-			sql="update qna set team=(select last_insert_id()) where qna_id=(elect last_insert_id())";
+			sql="update qna set team=(select last_insert_id()) where qna_id=(select last_insert_id())";
 			pstmt=con.prepareStatement(sql); //쿼리문 1:1 대응하게!!
 			pstmt.executeUpdate();
-			con.commit();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			try {
-				con.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
 		}finally {
 			dbManager.release(con, pstmt);
 		}
@@ -59,7 +55,38 @@ public class QnADAO {
 	
 	//selectAll
 	public List selectAll() {
-		return null;
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs = null;
+		ArrayList<QnA> list = new ArrayList<QnA>();
+		
+		String sql="select * from qna order by team desc, rank asc";
+		con=dbManager.getConnection();
+		try {
+			pstmt=con.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+		
+			while(rs.next()) {
+				QnA qna = new QnA(); //레코드만큼 vo 생성해야 함!!
+				qna.setQna_id(rs.getInt("qna_id"));
+				qna.setWriter(rs.getString("writer"));
+				qna.setTitle(rs.getString("title"));
+				qna.setContent(rs.getString("content"));
+				qna.setRegdate(rs.getString("regdate"));
+				qna.setHit(rs.getInt("hit"));
+				qna.setTeam(rs.getInt("team"));
+				qna.setRank(rs.getInt("rank"));
+				qna.setDepth(rs.getInt("depth"));
+				
+				list.add(qna); //리스트에 추가하기!!
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			dbManager.release(con, pstmt, rs);
+		}
+		return list;
 	}
 	
 	//select

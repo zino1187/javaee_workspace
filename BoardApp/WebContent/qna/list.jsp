@@ -1,3 +1,6 @@
+<%@page import="java.util.List"%>
+<%@page import="board.model.QnADAO"%>
+<%@page import="board.model.QnA"%>
 <%@page import="board.model.Notice"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="board.model.NoticeDAO"%>
@@ -7,9 +10,8 @@
 <%@ page import="java.sql.PreparedStatement"%>
 <%@ page import="java.sql.ResultSet"%>
 <%
-	NoticeDAO noticeDAO = new NoticeDAO();
-	ArrayList<Notice> list = noticeDAO.selectAll();
-	//
+	QnADAO qnaDAO = new QnADAO();// TODO Auto-generated catch block();
+	List<QnA> list = qnaDAO.selectAll();
 %>
 <!DOCTYPE html>
 <html>
@@ -37,7 +39,7 @@ tr:nth-child(even) {
 $(function(){
 	$("button").on("click",function(){
 		//자바스크립트에서 링크 구현? 
-		location.href="/board/regist_form.jsp";
+		location.href="/qna/regist_form.jsp";
 	});
 }); //onload
 </script>
@@ -54,15 +56,15 @@ $(function(){
   </tr>
 
 	<%for(int i=0;i<list.size();i++){%>
-	<%Notice notice=list.get(i); //각 칸에 들어간 vo 끄집어 내기%>
+	<%QnA qna=list.get(i); //각 칸에 들어간 vo 끄집어 내기%>
   <tr>
     <td>26</td>
     <td>
-		<a href="/board/detail.jsp?notice_id=<%=notice.getNotice_id()%>"><%=notice.getTitle()%></a>
+		<a href="/board/detail.jsp?notice_id=<%=qna.getQna_id()%>"><%=qna.getTitle()%></a>
 	</td>
-    <td><%= notice.getAuthor()%></td>
-	<td><%=notice.getRegdate()%></td>
-	<td><%=notice.getHit()%></td>
+    <td><%= qna.getWriter()%></td>
+	<td><%=qna.getRegdate()%></td>
+	<td><%=qna.getHit()%></td>
   </tr>
 	<%}%>
   <tr>
