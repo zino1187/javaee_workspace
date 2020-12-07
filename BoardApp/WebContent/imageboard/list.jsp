@@ -1,3 +1,4 @@
+<%@page import="board.model.ImageBoardDAO"%>
 <%@page import="board.model.ImageBoard"%>
 <%@page import="board.model.Notice"%>
 <%@page import="java.util.ArrayList"%>
@@ -8,9 +9,8 @@
 <%@ page import="java.sql.PreparedStatement"%>
 <%@ page import="java.sql.ResultSet"%>
 <%
-	NoticeDAO noticeDAO = new NoticeDAO();
-	ArrayList<ImageBoard> list = noticeDAO.selectAll();
-	//
+	ImageBoardDAO boardDAO = new ImageBoardDAO();
+	ArrayList<ImageBoard> list = boardDAO.selectAll();
 %>
 <!DOCTYPE html>
 <html>
@@ -38,7 +38,7 @@ tr:nth-child(even) {
 $(function(){
 	$("button").on("click",function(){
 		//자바스크립트에서 링크 구현? 
-		location.href="/board/regist_form.jsp";
+		location.href="/imageboard/regist_form.jsp";
 	});
 }); //onload
 </script>
@@ -56,16 +56,16 @@ $(function(){
   </tr>
 
 	<%for(int i=0;i<list.size();i++){%>
-	<%Notice notice=list.get(i); //각 칸에 들어간 vo 끄집어 내기%>
+	<%ImageBoard board=list.get(i); //각 칸에 들어간 vo 끄집어 내기%>
   <tr>
     <td>26</td>
-    <td><img src="/data/<%=notice.get %>" width="50px"></td>
+    <td><img src="/data/<%=board.getFilename() %>" width="50px"></td>
     <td>
-		<a href="/board/detail.jsp?notice_id=<%=notice.getNotice_id()%>"><%=notice.getTitle()%></a>
+		<a href="/imageboard/detail.jsp?notice_id=<%=board.getBoard_id()%>"><%=board.getTitle()%></a>
 	</td>
-    <td><%= notice.getAuthor()%></td>
-	<td><%=notice.getRegdate()%></td>
-	<td><%=notice.getHit()%></td>
+    <td><%= board.getAuthor()%></td>
+	<td><%=board.getRegdate()%></td>
+	<td><%=board.getHit()%></td>
   </tr>
 	<%}%>
   <tr>

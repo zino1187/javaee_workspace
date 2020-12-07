@@ -20,6 +20,7 @@
 	DiskFileItemFactory itemFactory=new DiskFileItemFactory();
 	itemFactory.setRepository(new File(saveDir));
 	itemFactory.setSizeThreshold(maxSize);
+	itemFactory.setDefaultCharset("utf-8");
 	
 	ServletFileUpload upload=new ServletFileUpload(itemFactory);
 	
