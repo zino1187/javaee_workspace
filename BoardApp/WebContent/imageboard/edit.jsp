@@ -29,7 +29,6 @@
 	List<FileItem> items=upload.parseRequest(request);
 	
 	ImageBoard board = new ImageBoard();//Empty상태의 VO 생성 
-	String filename="";
 	
 	for(FileItem item : items){
 		if(item.isFormField()){ //textfield 라면...db에 넣어야지
@@ -43,8 +42,7 @@
 			}else if(item.getFieldName().equals("content")){//필드명이 content 라면...
 				board.setContent(item.getString());
 			}else if(item.getFieldName().equals("filename")){//필드명이 filename 라면...
-				filename=item.getString();//업로드 하지 않았을때도 기존 파일명을 유지하려고..
-				//board.setFilename(item.getString());
+				board.setFilename(item.getString());
 			}
 		}else{// textfield가 아니라면..업로드 처리
 			//out.println("업로드한 파일명:"+item.getName().length());
@@ -54,20 +52,18 @@
 				String destFile = saveDir+"/"+newName;
 				File file = new File(destFile);
 				item.write(file);//물리적 저장 시점!!!	
-				filename=newName;
-				//board.setFilename(newName);//vo 에 파일명 값을 담자!!			sdfsadf
+				board.setFilename(newName);//vo 에 파일명 값을 담자!!			
+			}else{
+				break;
 			}
 		}
 	}
-	//
-	board.setFilename(filename);
-
-	//반복문을 지나친 이 시점에는 VO에 데이터가 이미 채워진 상태일것이다!!
 	int result = dao.update(board); //이 시점에는 채워진 VO를 원함!!
+	
 	if(result==0){
-		out.print(getMsgBack("등록실패"));
+		out.print(getMsgBack("수정실패"));
 	}else{
-		out.print(getMsgURL("등록성공", "/imageboard/list.jsp"));
+		out.print(getMsgURL("수정성공", "/imageboard/list.jsp"));
 	}
 	
 %>
