@@ -19,6 +19,7 @@ public class QnADAO {
 		String sql="insert into qna(writer, title ,content) values(?,?,?)";
 		try {
 			con=dbManager.getConnection();
+			con.setAutoCommit(false);
 			pstmt=con.prepareStatement(sql);
 			pstmt.setString(1, qna.getWriter());
 			pstmt.setString(2, qna.getTitle());
@@ -26,12 +27,17 @@ public class QnADAO {
 			result=pstmt.executeUpdate();//실행
 			
 			//team을 방금 들어간 레코드에 의해 발생한 pk 값으로 업데이트!!!
-			sql="update qna set team=(select last_insert_id()) where qna_id=(select last_insert_id())";
+			sql="update qna set team=(select last_insert_id()) where qna_id=(elect last_insert_id())";
 			pstmt=con.prepareStatement(sql); //쿼리문 1:1 대응하게!!
 			pstmt.executeUpdate();
-			
+			con.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		}finally {
 			dbManager.release(con, pstmt);
 		}
