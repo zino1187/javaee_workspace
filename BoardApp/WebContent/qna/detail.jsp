@@ -1,13 +1,11 @@
-<%@page import="board.model.ImageBoard"%>
-<%@page import="board.model.ImageBoardDAO"%>
 <%@page import="board.model.Notice"%>
 <%@page import="board.model.NoticeDAO"%>
 <%@ page contentType="text/html;charset=utf-8"%>
 <%@ page import="java.sql.*"%>
 <%
-	String board_id = request.getParameter("board_id");
-	ImageBoardDAO boardDAO = new ImageBoardDAO();
-	ImageBoard board = boardDAO.select(Integer.parseInt(board_id));
+	String notice_id = request.getParameter("notice_id");
+	NoticeDAO noticeDAO = new NoticeDAO();
+	Notice notice = noticeDAO.select(Integer.parseInt(notice_id));
 %>
 <!DOCTYPE html>
 <html>
@@ -68,8 +66,7 @@ $(function(){
 		if(confirm("수정하시겠어요?")){
 			$("form").attr({
 				method:"post",
-				enctype:"multipart/form-data",
-				action:"/imageboard/edit.jsp"
+				action:"/board/edit.jsp"
 			});
 			$("form").submit(); //전송행위!!!
 		}
@@ -79,7 +76,7 @@ $(function(){
 		if(confirm("삭제하시겠습니까?")){
 			$("form").attr({
 				method:"post",
-				action:"/imageboard/delete.jsp"
+				action:"/board/delete.jsp"
 			});
 			$("form").submit(); //전송행위!!!
 		}
@@ -93,25 +90,17 @@ $(function(){
 
 <div class="container">
   <form>
-	<input type="hidden" name="board_id" value="<%=board.getBoard_id()%>">
+	<input type="hidden" name="notice_id" value="<%=notice.getNotice_id()%>">
 
     <label for="fname">First Name</label>
-    <input type="text" id="fname" name="author" value="<%=board.getAuthor()%>">
+    <input type="text" id="fname" name="author" value="<%=notice.getAuthor()%>">
 
     <label for="lname">title</label>
-    <input type="text" id="lname" name="title" value="<%=board.getTitle()%>">
+    <input type="text" id="lname" name="title" value="<%=notice.getTitle()%>">
 
 	<label for="subject">Content</label>
-    <textarea id="subject" name="content" placeholder="Write something.." style="height:200px"><%=board.getContent()%></textarea>
-	
-	<img src="/data/<%=board.getFilename()%>" width="100px">
-	
-	<!-- 만일 이미지를 선택하면, 이미지를 교체해야 한다 , 교체하지 않으면 db에 기존 파일명 유지-->
-	<input type="hidden" name="filename" value="<%=board.getFilename()%>"> 
-	<input type="file" name="photo">
-	
-	<p>
-	
+    <textarea id="subject" name="content" placeholder="Write something.." style="height:200px"><%=notice.getContent()%></textarea>
+
     <input type="button" value="목록으로">
 	<input type="button" value="수정하기">
 	<input type="button" value="삭제하기">
