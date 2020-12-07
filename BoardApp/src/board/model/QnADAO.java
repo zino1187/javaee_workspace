@@ -90,8 +90,39 @@ public class QnADAO {
 	}
 	
 	//select
-	public QnA select() {
-		return null;
+	public QnA select(int qna_id) {
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs = null;
+		QnA qna = null;
+		
+		String sql="select * from qna where qna_id=?";
+		con=dbManager.getConnection();
+		try {
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, qna_id);//바인드 변수 값 지정
+			rs=pstmt.executeQuery();
+		
+			if(rs.next()) {//레코드가 있다면...
+				qna = new QnA(); //레코드만큼 vo 생성해야 함!!
+				qna.setQna_id(rs.getInt("qna_id"));
+				qna.setWriter(rs.getString("writer"));
+				qna.setTitle(rs.getString("title"));
+				qna.setContent(rs.getString("content"));
+				qna.setRegdate(rs.getString("regdate"));
+				qna.setHit(rs.getInt("hit"));
+				qna.setTeam(rs.getInt("team"));
+				qna.setRank(rs.getInt("rank"));
+				qna.setDepth(rs.getInt("depth"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			dbManager.release(con, pstmt, rs);
+		}
+		return qna;
+
 	}
 	
 	//update

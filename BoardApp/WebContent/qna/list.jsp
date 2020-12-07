@@ -60,7 +60,7 @@ $(function(){
   <tr>
     <td>26</td>
     <td>
-		<a href="/board/detail.jsp?notice_id=<%=qna.getQna_id()%>"><%=qna.getTitle()%></a>
+		<a href="/qna/detail.jsp?qna_id=<%=qna.getQna_id()%>"><%=qna.getTitle()%></a>
 	</td>
     <td><%= qna.getWriter()%></td>
 	<td><%=qna.getRegdate()%></td>
