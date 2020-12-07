@@ -94,6 +94,8 @@ public class ImageBoardDAO {
 				board.setHit(rs.getInt("hit"));
 				board.setFilename(rs.getString("filename"));
 			}
+			pstmt=con.prepareStatement("update imageboard set hit=hit+1 where board_id=?");
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
