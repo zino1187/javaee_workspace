@@ -1,3 +1,4 @@
+<%@page import="board.model.ImageBoard"%>
 <%@page import="board.model.Notice"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="board.model.NoticeDAO"%>
@@ -8,7 +9,7 @@
 <%@ page import="java.sql.ResultSet"%>
 <%
 	NoticeDAO noticeDAO = new NoticeDAO();
-	ArrayList<Notice> list = noticeDAO.selectAll();
+	ArrayList<ImageBoard> list = noticeDAO.selectAll();
 	//
 %>
 <!DOCTYPE html>
@@ -47,6 +48,7 @@ $(function(){
 <table>
   <tr>
     <th>No</th>
+    <th>이미지</th>
     <th>제목</th>
     <th>작성자</th>
 	<th>등록일</th>
@@ -57,6 +59,7 @@ $(function(){
 	<%Notice notice=list.get(i); //각 칸에 들어간 vo 끄집어 내기%>
   <tr>
     <td>26</td>
+    <td><img src="/data/<%=notice.get %>" width="50px"></td>
     <td>
 		<a href="/board/detail.jsp?notice_id=<%=notice.getNotice_id()%>"><%=notice.getTitle()%></a>
 	</td>
@@ -66,12 +69,12 @@ $(function(){
   </tr>
 	<%}%>
   <tr>
-	<td colspan="5" > 
+	<td colspan="6" > 
 		<button>글등록</button>
 	</td>
   </tr>
   <tr>
-	<td colspan="5" style="text-align:center"> 
+	<td colspan="6" style="text-align:center"> 
 		<%@ include file="/inc/footer.jsp"%>
 	</td>
   </tr>
