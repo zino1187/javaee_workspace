@@ -66,7 +66,7 @@ public class QnADAO {
 			pstmt.setInt(2, qna.getRank());
 			result=pstmt.executeUpdate();
 				
-			sql="insert into qn(writer,title,content,team,rank,depth)";
+			sql="insert into qna(writer,title,content,team,rank,depth)";
 			sql+=" values(?,?,?,?,?,?)";
 			pstmt=con.prepareStatement(sql);
 			pstmt.setString(1, qna.getWriter());
