@@ -1,6 +1,13 @@
+<%@page import="board.model.QnA"%>
+<%@page import="java.util.List"%>
+<%@page import="board.model.QnADAO"%>
 <%@ page contentType="text/html;charset=utf-8"%>
 <%	
-	int totalRecord=26; //총 레코드 수 
+	//DB연동	
+	QnADAO dao = new QnADAO();
+	List<QnA> list = dao.selectAll();
+	
+	int totalRecord=list.size(); //총 레코드 수 , 실제 DB에 있는 데이터 수를 대입하면 된다!!
 	int pageSize=10; //한 페이지당 보여질 레코드 수
 	int totalPage =(int)Math.ceil((float)totalRecord/pageSize);// 총 페이지수
 	int blockSize=10; //한 블럭당 보여질 페이지 수
@@ -9,6 +16,7 @@
 	int firstPage=currentPage - (currentPage-1)%blockSize; //반복문의 시작 값 
 	int lastPage=firstPage + (blockSize-1); //반복문의 끝값
 	int num=totalRecord - (currentPage-1)*pageSize; // 페이지당 시작 번호 (힌트: 여전히 위에 있는 모든 변수를 조합하면 금방 나옴...)
+	int curPos = (currentPage-1)*pageSize; //페이지당 List에서의 시작 index
 %>
 <%="totalRecord "+totalRecord+"<br>"%>
 <%="pageSize "+pageSize+"<br>"%>
@@ -17,6 +25,7 @@
 <%="currentPage "+currentPage+"<br>"%>
 <%="firstPage "+firstPage+"<br>"%>
 <%="lastPage "+lastPage+"<br>"%>
+<%="num "+num+"<br>"%>
 
 <!DOCTYPE html>
 <html>
@@ -67,12 +76,16 @@ a{
 
 	<%for(int i=1;i<=pageSize;i++){ %>
 	<%if(num<1)break; %>
+	<%
+		//break문을 만나지 않았다는 것은 레코드가 잇다는 것이므로, break문 아래에서 데이터를 추출하자!! 
+		QnA qna=list.get(curPos++); //1page :0~9,  2page:10~19,...
+	%>
   <tr>
     <td><%=num-- %></td>
-    <td>제목입니다</td>
-    <td></td>
-	<td></td>
-	<td></td>
+    <td><%=qna.getTitle() %></td>
+    <td><%=qna.getWriter() %></td>
+	<td><%=qna.getRegdate() %></td>
+	<td><%=qna.getHit() %></td>
   </tr>
 	<%} %>  
  <tr>
