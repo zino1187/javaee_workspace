@@ -82,7 +82,7 @@ $(function(){
 	
 	$($("input[type='button']")[3]).click(function(){//답글 폼요청
 		$("form").attr({
-			method:"get",
+			method:"post",
 			action:"/qna/reply_form.jsp"
 		});
 		$("form").submit(); //전송행위!!!
@@ -96,6 +96,9 @@ $(function(){
 <div class="container">
   <form>
 	<input type="hidden" name="notice_id" value="<%=qna.getQna_id()%>">
+	<input type="hidden" name="team" value="<%=qna.getTeam()%>">
+	<input type="hidden" name="rank" value="<%=qna.getRank()%>">
+	<input type="hidden" name="depth" value="<%=qna.getDepth()%>">
 
     <label for="fname">First Name</label>
     <input type="text" id="fname" name="author" value="<%=qna.getWriter()%>">
