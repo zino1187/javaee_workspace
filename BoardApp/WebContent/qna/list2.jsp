@@ -12,7 +12,12 @@
 	int totalPage =(int)Math.ceil((float)totalRecord/pageSize);// 총 페이지수
 	int blockSize=10; //한 블럭당 보여질 페이지 수
 	int currentPage=1; //현재 페이지
-	currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	
+	//아래의 코드는 아무때나 하는게 아니다!! 즉 어느때만???? 누군가가 파라미터를 넘겼을때만....즉 페이지 넘버를 클릭한 경우를 전제로
+			//숫자화 시키는 코드이다!
+	if(request.getParameter("currentPage")!=null){ //즉 페이지를 넘겼다면..즉 넘버를 클릭했다면...			
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
 	int firstPage=currentPage - (currentPage-1)%blockSize; //반복문의 시작 값 
 	int lastPage=firstPage + (blockSize-1); //반복문의 끝값
 	int num=totalRecord - (currentPage-1)*pageSize; // 페이지당 시작 번호 (힌트: 여전히 위에 있는 모든 변수를 조합하면 금방 나옴...)
@@ -82,7 +87,12 @@ a{
 	%>
   <tr>
     <td><%=num-- %></td>
-    <td><%=qna.getTitle() %></td>
+    <td>
+    	<%if(qna.getDepth()>0){ //답변인것만..%>
+    	<img src="/images/reply.png" style="margin-left:<%=10*qna.getDepth()%>">
+    	<%} %>
+    	<%=qna.getTitle() %>
+    </td>
     <td><%=qna.getWriter() %></td>
 	<td><%=qna.getRegdate() %></td>
 	<td><%=qna.getHit() %></td>
