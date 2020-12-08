@@ -63,7 +63,7 @@ $(function(){
 		<a href="/qna/detail.jsp?qna_id=<%=qna.getQna_id()%>"><%=qna.getTitle()%></a>
 	</td>
     <td><%= qna.getWriter()%></td>
-	<td><%=qna.getRegdate()%></td>
+	<td><%=qna.getRegdate().substring(0,10)%></td>
 	<td><%=qna.getHit()%></td>
   </tr>
 	<%}%>
