@@ -6,6 +6,8 @@
 	// 넘겨받은 파라미터 값을 이용하여 답글 달자!!
 	//답글을 달기 위한 쿼리문을 알아야 한다!!
 	//DAO 에서 수행할거지만, 일단 이해를 위해 여기에 적겠다!!!!
+	request.setCharacterEncoding("utf-8");
+
 	String writer=request.getParameter("writer");
 	String title=request.getParameter("title");
 	String content = request.getParameter("content");

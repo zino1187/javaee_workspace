@@ -82,7 +82,7 @@ $(function(){
   <form>
   	<input type="hidden" name="team" value="<%=team%>">
   	<input type="hidden" name="rank" value="<%=rank%>">
-  	<input type="hidden" name="rank" value="<%=depth%>">
+  	<input type="hidden" name="depth" value="<%=depth%>">
   	
     <label for="fname">First Name</label>
     <input type="text" id="fname" name="writer" placeholder="Your name..">
