@@ -8,7 +8,7 @@
 	currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	int firstPage=currentPage - (currentPage-1)%blockSize; //반복문의 시작 값 
 	int lastPage=firstPage + (blockSize-1); //반복문의 끝값
-	int num; // 페이지당 시작 번호 (힌트: 여전히 위에 있는 모든 변수를 조합하면 금방 나옴...)
+	int num=totalRecord - (currentPage-1)*pageSize; // 페이지당 시작 번호 (힌트: 여전히 위에 있는 모든 변수를 조합하면 금방 나옴...)
 %>
 <%="totalRecord "+totalRecord+"<br>"%>
 <%="pageSize "+pageSize+"<br>"%>
@@ -66,8 +66,9 @@ a{
   </tr>
 
 	<%for(int i=1;i<=pageSize;i++){ %>
+	<%if(num<1)break; %>
   <tr>
-    <td>26</td>
+    <td><%=num-- %></td>
     <td>제목입니다</td>
     <td></td>
 	<td></td>
@@ -76,12 +77,23 @@ a{
 	<%} %>  
  <tr>
 	<td colspan="5" style="text-align:center"> 
-		<a href="/qna/list2.jsp?currentPage=<%=firstPage-1%>">◀</a>
+		
+		<%if((firstPage-1)>=1){ //페이지가 있다면...%>
+			<a href="/qna/list2.jsp?currentPage=<%=firstPage-1%>">◀</a>
+		<%}else{%>
+			<a href="javascript:alert('처음 페이지입니다');">◀</a>
+		<%} %>
+		
 		<%for(int i=firstPage;i<=lastPage;i++){%>
 		<%if(i>totalPage)break; //페이지를 출력하는 i 가 총페이지수에 넘어설때 반복문 빠져나와라...%>		
 		<a href="/qna/list2.jsp?currentPage=<%=i %>"   <%if(currentPage==i){%>class="pageNum"<%}%> >[<%=i %>]</a>
 		<%} %>
-		<a href="/qna/list2.jsp?currentPage=<%=lastPage+1%>">▶</a>							
+		
+		<%if((lastPage+1)<totalPage){%>
+			<a href="/qna/list2.jsp?currentPage=<%=lastPage+1%>">▶</a>		
+		<%}else{%>
+			<a href="javascript:alert('마지막 페이지입니다');">▶</a>
+		<%}%>								
 	</td>
    </tr>
 	
