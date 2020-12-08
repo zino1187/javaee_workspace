@@ -53,7 +53,7 @@ public class QnADAO {
 		PreparedStatement pstmt=null;
 		int result=0;		
 		con=dbManager.getConnection();
-		
+
 		String sql="update qna set rank=rank+1 where team=? and rank > ?";
 		try {
 			pstmt=con.prepareStatement(sql);
