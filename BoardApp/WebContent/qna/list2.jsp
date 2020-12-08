@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=utf-8"%>
 <%	
-	int totalRecord=3926; //총 레코드 수 
+	int totalRecord=26; //총 레코드 수 
 	int pageSize=10; //한 페이지당 보여질 레코드 수
 	int totalPage =(int)Math.ceil((float)totalRecord/pageSize);// 총 페이지수
 	int blockSize=10; //한 블럭당 보여질 페이지 수
@@ -8,6 +8,7 @@
 	currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	int firstPage=currentPage - (currentPage-1)%blockSize; //반복문의 시작 값 
 	int lastPage=firstPage + (blockSize-1); //반복문의 끝값
+	int num; // 페이지당 시작 번호 (힌트: 여전히 위에 있는 모든 변수를 조합하면 금방 나옴...)
 %>
 <%="totalRecord "+totalRecord+"<br>"%>
 <%="pageSize "+pageSize+"<br>"%>
@@ -77,6 +78,7 @@ a{
 	<td colspan="5" style="text-align:center"> 
 		<a href="/qna/list2.jsp?currentPage=<%=firstPage-1%>">◀</a>
 		<%for(int i=firstPage;i<=lastPage;i++){%>
+		<%if(i>totalPage)break; //페이지를 출력하는 i 가 총페이지수에 넘어설때 반복문 빠져나와라...%>		
 		<a href="/qna/list2.jsp?currentPage=<%=i %>"   <%if(currentPage==i){%>class="pageNum"<%}%> >[<%=i %>]</a>
 		<%} %>
 		<a href="/qna/list2.jsp?currentPage=<%=lastPage+1%>">▶</a>							
