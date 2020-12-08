@@ -48,8 +48,34 @@ public class QnADAO {
 	2.빈 공간을 내가 차지!!(답변)
 	   insert  qna(~team, rank, depth) values(내본team,내본rank+1,내본depth+1)
 	 */   
-	public int reply() {
+	public int reply(QnA qna) {
+		Connection con=null;
+		PreparedStatement pstmt=null;
 		int result=0;		
+		con=dbManager.getConnection();
+		
+		String sql="update qna set rank=rank+1 where team=? and rank > ?";
+		try {
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, qna.getTeam());
+			pstmt.setInt(2, qna.getRank());
+			result=pstmt.executeUpdate();
+				
+			sql="insert into qna(writer,title,content,team,rank,depth)";
+			sql+=" values(?,?,?,?,?,?)";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, qna.getWriter());
+			pstmt.setString(2, qna.getTitle());
+			pstmt.setString(3, qna.getContent());
+			pstmt.setInt(4, qna.getTeam());
+			pstmt.setInt(5, qna.getRank()+1); //내본글 다음에 위치할 것이므로 +1
+			pstmt.setInt(6, qna.getDepth()+1);//내본글에 대한 답변이므로 +1
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			dbManager.release(con, pstmt);
+		}
 		return result;
 	}
 	
