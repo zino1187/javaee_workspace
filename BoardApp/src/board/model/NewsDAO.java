@@ -20,10 +20,11 @@ public class NewsDAO {
 		
 		con=manager.getConnection();
 		StringBuilder sb = new StringBuilder();
+		//쿼리문 작성시 앞에 한칸씩 띄어쓰기 하셔야 합니다. 
 		sb.append("select  n.news_id as news_id, writer, title , regdate, hit,count(comments_id) as cnt");
-		sb.append("from news n , comments c ");
-		sb.append("where n.news_id = c.news_id"); 
-		sb.append("group by n.news_id,writer, title , regdate, hit order by t.news_id desc");
+		sb.append(" from news n left outer join comments c");
+		sb.append(" on n.news_id = c.news_id"); 
+		sb.append(" group by n.news_id,writer, title , regdate, hit order by n.news_id desc");
 
 		try {
 			pstmt=con.prepareStatement(sb.toString());
@@ -136,7 +137,37 @@ public class NewsDAO {
 		}
 		return result;
 	}
+	
+	//게시물 지우지 않고, 삭제된 게시물이라는 표시 처리 
+	public int replace(int news_id) {
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		int result=0;
+		String sql="update news set title='작성자에 의해 삭제된 게시물입니다', writer='',content='' where news_id=?";
+		
+		con=manager.getConnection();
+		try {
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, news_id);
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			manager.release(con, pstmt);
+		}
+		return result;
+	}
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

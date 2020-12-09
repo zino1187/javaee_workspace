@@ -39,6 +39,9 @@ a{text-decoration:none;}
 	color:blue;
 	font-weight:bold;
 }
+.inactive{
+	color:#cccccc;
+}
 </style>
 <script>
 function showColor(obj){
@@ -64,7 +67,18 @@ function hideColor(obj){
 		<%News news=list.get(curPos++); %>
 		<tr onMouseOver="showColor(this)" onMouseout="hideColor(this)">
 			<td><%=num-- %></td>
-			<td><a href="detail.jsp?news_id=<%=news.getNews_id()%>"><%=news.getTitle() %></a></td>
+			<td>
+			<%if(news.getWriter().length()<1){//작성자의 문자열 길이가 0이라면..%>
+				<span class="inactive"><%=news.getTitle() %></span>				
+			<%}else{%>						
+				<a href="detail.jsp?news_id=<%=news.getNews_id()%>"><%=news.getTitle() %>
+				<%if(news.getCnt()>0){ %>
+					[<%=news.getCnt() %>]
+				<%} %>
+			<%} %>
+			</a>
+			
+			</td>
 			<td><%=news.getWriter() %></td>
 			<td><%=news.getRegdate().substring(0,10) %></td>
 			<td><%=news.getHit() %></td>

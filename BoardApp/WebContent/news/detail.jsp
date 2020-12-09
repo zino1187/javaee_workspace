@@ -63,7 +63,9 @@ $(function(){
 
 	});
 	$($("button")[1]).click(function(){//삭제
-
+		if(confirm("삭제하시겠습니까?")){
+			del();	
+		}
 	});
 	$($("button")[2]).click(function(){//목록
 		location.href="list.jsp";
@@ -73,6 +75,23 @@ $(function(){
 	});
 	
 });
+
+function del(){
+	//자식 코멘트가 존재한다면, 업데이트!!!
+	<%if(list.size() >0){%>
+		$("form").attr({
+			method:"post", 
+			action:"replace.jsp" 
+		});					
+	<%}else{%>
+		//자식코멘트가 없다면 그냥 삭제 
+		$("form").attr({
+			method:"post", 
+			action:"delete.jsp"
+		});
+	<%}%>
+	$("form").submit();	
+}
 
 //폼양식을 서버에 전송하자!!
 function regist(){
