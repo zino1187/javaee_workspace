@@ -7,6 +7,8 @@ public class News {
 	private String content;
 	private String regdate;
 	private int hit;
+	private int cnt; //뉴스 기사에 딸려있는 코멘트 수
+	
 	
 	public int getNews_id() {
 		return news_id;
@@ -43,6 +45,12 @@ public class News {
 	}
 	public void setHit(int hit) {
 		this.hit = hit;
+	}
+	public int getCnt() {
+		return cnt;
+	}
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
 	}
 	
 	
