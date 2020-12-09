@@ -1,6 +1,12 @@
+<%@page import="board.model.News"%>
+<%@page import="java.util.List"%>
+<%@page import="board.model.NewsDAO"%>
 <%@ page contentType="text/html;charset=utf-8"%>
 <%
-	int totalRecord=26; //총 레코드 수
+	NewsDAO dao = new NewsDAO();
+	List<News> list=dao.selectAll();
+	
+	int totalRecord=list.size(); //총 레코드 수
 	int pageSize=10; //페이지당 보여질 레코드수(개발자가 임의로 지정 가능)
 	int totalPage = (int)Math.ceil((float)totalRecord/pageSize);//총 페이지 수
 	int blockSize=10; //블럭당 보여질 페이지 수 (개발자가 임의로 지정 가능) 	
@@ -35,6 +41,12 @@ a{text-decoration:none;}
 }
 </style>
 <script>
+function showColor(obj){
+	obj.style.background="dodgerblue";
+}
+function hideColor(obj){
+	obj.style.background="";
+}
 </script>
 </head>
 <body>
@@ -49,12 +61,13 @@ a{text-decoration:none;}
 		</tr>
 		<%for(int i=1;i<=pageSize;i++){%>
 		<%if(num<1)break; %>
-		<tr>
+		<%News news=list.get(curPos++); %>
+		<tr onMouseOver="showColor(this)" onMouseout="hideColor(this)">
 			<td><%=num-- %></td>
-			<td>제목 나올곳</td>
-			<td>홍길동</td>
-			<td>2020-12-20</td>
-			<td>31</td>
+			<td><%=news.getTitle() %></td>
+			<td><%=news.getWriter() %></td>
+			<td><%=news.getRegdate().substring(0,10) %></td>
+			<td><%=news.getHit() %></td>
 		</tr>	
 		<%} %>
 		<tr>
@@ -65,6 +78,11 @@ a{text-decoration:none;}
 					<a  <%if(currentPage==i){%>class="pageNum"<%}%>   href="list.jsp?currentPage=<%=i%>">[<%=i %>]</a>
 				<%} %>
 				<a href="list.jsp?currentPage=<%=lastPage+1%>">▶</a>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="5">
+				<button onClick="location.href='regist_form.jsp';">글쓰기</button>
 			</td>
 		</tr>
 	</table>
