@@ -1,3 +1,6 @@
+<%@page import="board.model.Comments"%>
+<%@page import="java.util.List"%>
+<%@page import="board.model.CommentsDAO"%>
 <%@page import="board.model.News"%>
 <%@page import="board.model.NewsDAO"%>
 <%@ page contentType="text/html;charset=utf-8"%>
@@ -6,6 +9,10 @@
 	
 	NewsDAO dao = new NewsDAO();
 	News news=dao.select(Integer.parseInt(news_id));//데이터 한건 가져오기!!
+	
+	//이 게시물에 딸려 있는 모든 코멘트 게시물 가져오기!!
+	CommentsDAO cdao = new CommentsDAO();
+	List<Comments> list= cdao.selectAll(Integer.parseInt(news_id));
 %>
 <!DOCTYPE html>
 <html>
@@ -32,6 +39,22 @@ input[name='msg']{
 input[name='author']{
 	width:20%;
 }
+
+
+p{
+	display:inline-block;
+	background:yellow;
+}
+.msg{
+	width:70%
+}
+.author{
+	width:10%
+}
+.cdate{
+	width:18%
+}
+
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
@@ -99,6 +122,18 @@ function reply(){
 					</div>
 				</td>
 			</tr>
+			<!-- 댓글 리스트 영역 -->
+			<tr>
+				<td>
+					<%for(Comments comments : list){%>
+					<div>
+						<p class="msg"><%=comments.getMsg() %></p>
+						<p class="author"><%=comments.getAuthor() %></p>
+						<p class="cdate"><%=comments.getCdate().substring(0,10) %></p>
+					</div>
+					<%} %>
+				</td>
+			</tr>			
 		</table>
 	</form>
 </body>
