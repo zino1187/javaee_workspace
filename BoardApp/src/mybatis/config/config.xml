@@ -12,10 +12,12 @@
       </dataSource>
     </environment>
   </environments>
-	<!--  
+  
+  
+	<!-- 매퍼들의 위치 등록 -->
   <mappers>
-    <mapper resource="org/mybatis/example/BlogMapper.xml"/>
+    <mapper resource="mybatis/config/DeptMapper.xml"/>
   </mappers>
-  -->
+
   
 </configuration>
