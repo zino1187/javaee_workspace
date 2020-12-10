@@ -78,7 +78,7 @@ $(function(){
 	});
 	
 	//댓글 목록 가져오기!!
-	
+	asyncList();
 });
 
 //비동기로 목록 가져오기!!
@@ -89,7 +89,7 @@ function asyncList(){
 			getList(this.responseText);//코멘트 리스트 동적 출력
 		}
 	};
-	xhttp.open("get", "/news/asynlist.jsp?news_id=<%=news_id%>", true);
+	xhttp.open("get", "/news/asynclist.jsp?news_id=<%=news_id%>", true);
 	xhttp.send();
 }
 
@@ -131,7 +131,7 @@ function getList(data){
 	var json=JSON.parse(data); //파싱을 하게되면, 그 결과로 반환하는 되는 결과물은 객체가 된다..
 								//따라서 이 시점부터는 문자열에 불과했던 데이터를 객체처럼 접근하여 사용할 수 있다
 	if(json.resultCode==0){
-		alert("등록실패ㅜㅜ");
+		//alert("등록실패ㅜㅜ");
 	}else{
 		var jsonArray = json.commentsList; //배열을 반환
 		
@@ -158,9 +158,19 @@ function getList(data){
 
 //코멘트 삭제 
 function delComments(comments_id){
-	alert(comments_id+"를 삭제하길 원해?");
+	var ans=confirm(comments_id+"를 삭제하길 원해?");
 	
-	//삭제 후 (비동기), 리스트 가져오기(비동기)
+	if(ans){//확인버튼을 누른 경우만..
+		//삭제 후 (비동기), 리스트 가져오기(비동기)
+		var xhttp = new XMLHttpRequest(); //비동기 통신 객체
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				getList(this.responseText);//코멘트 리스트 동적 출력
+			}
+		};
+		xhttp.open("get", "/news/asyncdelete.jsp?comments_id="+comments_id, true);
+		xhttp.send();	
+	}
 }
 
 function del(){

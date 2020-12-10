@@ -63,6 +63,12 @@ public class CommentsDAO {
 		}
 		return list;
 	}
+	
+	public int delete(int comments_id) {
+		int result=0;
+		
+		return result;
+	}
 }
 
 
