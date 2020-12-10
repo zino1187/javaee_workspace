@@ -37,7 +37,7 @@ input[name='msg']{
 	width:70%;
 }
 input[name='author']{
-	width:20%;
+	width:15%;
 }
 
 
@@ -73,8 +73,37 @@ $(function(){
 	$($("button")[3]).click(function(){//댓글등록
 		reply();
 	});
+	$($("button")[4]).click(function(){//비동기 방식의 댓글등록
+		asyncReply();
+	});
 	
 });
+function asyncReply(){
+	var xhttp = new XMLHttpRequest(); //비동기 통신 객체
+	/*
+	0: request not initialized : 요청준비도 않된상태
+	1: server connection established : 서버와 네트워크 연결이 된 상태 
+	2: request received : 요청이 서버에 도달함
+	3: processing request : 서버가 요청을 처리중...
+	4: request finished and response is ready : 요청처리가 완료, 응답을 받는 단계
+	*/
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			alert(this.responseText);
+			
+			//전체화면 갱신이 아닌, 부분화면 갱신...(새로고침이 되지 않음)
+			//SPA==Single Page Application
+		}
+	};
+	var author=$("input[name='author']").val();
+	var msg=$("input[name='msg']").val();
+	var params="news_id=<%=news_id%>&author="+author+"&msg="+msg;
+	
+	xhttp.open("post", "/news/asyncreply.jsp", true);
+	//반드시 open()메서드로  post 를 지정한 후에나 아래의 post 속성이 지정이 가능
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send(params);	
+}
 
 function del(){
 	//자식 코멘트가 존재한다면, 업데이트!!!
@@ -138,6 +167,7 @@ function reply(){
 						<input type="text" placeholder="댓글을 입력" name="msg">
 						<input type="text" placeholder="작성자 입력" name="author">
 						<button type="button">등록 </button>
+						<button type="button">비동기등록 </button>
 					</div>
 				</td>
 			</tr>
