@@ -165,7 +165,11 @@ function delComments(comments_id){
 		var xhttp = new XMLHttpRequest(); //비동기 통신 객체
 		xhttp.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
-				getList(this.responseText);//코멘트 리스트 동적 출력
+				if(this.responseText==0){
+					alert("삭제실패");
+				}else{
+					asyncList();
+				}
 			}
 		};
 		xhttp.open("get", "/news/asyncdelete.jsp?comments_id="+comments_id, true);
