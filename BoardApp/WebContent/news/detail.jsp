@@ -77,7 +77,22 @@ $(function(){
 		asyncReply();
 	});
 	
+	//댓글 목록 가져오기!!
+	
 });
+
+//비동기로 목록 가져오기!!
+function asyncList(){
+	var xhttp = new XMLHttpRequest(); //비동기 통신 객체
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			getList(this.responseText);//코멘트 리스트 동적 출력
+		}
+	};
+	xhttp.open("get", "/news/asynlist.jsp?news_id=<%=news_id%>", true);
+	xhttp.send();
+}
+
 function asyncReply(){
 	var xhttp = new XMLHttpRequest(); //비동기 통신 객체
 	/*
@@ -144,6 +159,8 @@ function getList(data){
 //코멘트 삭제 
 function delComments(comments_id){
 	alert(comments_id+"를 삭제하길 원해?");
+	
+	//삭제 후 (비동기), 리스트 가져오기(비동기)
 }
 
 function del(){
@@ -214,15 +231,7 @@ function reply(){
 			</tr>
 			<!-- 댓글 리스트 영역 -->
 			<tr>
-				<td id="listBox">
-					<%for(Comments comments : list){%>
-					<div>
-						<p class="msg"><%=comments.getMsg() %></p>
-						<p class="author"><%=comments.getAuthor() %></p>
-						<p class="cdate"><%=comments.getCdate().substring(0,10) %></p>
-					</div>
-					<%} %>
-				</td>
+				<td id="listBox"></td>
 			</tr>			
 		</table>
 	</form>
