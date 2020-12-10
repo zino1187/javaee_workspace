@@ -26,18 +26,23 @@
 		sb.append("{");
 		sb.append("\"resultCode\":"+result+", ");
 		sb.append("\"commentsList\" : [");
-		sb.append("{");
-		sb.append("\"comments_id\":23,");
-		sb.append("\"author\":\"batman\",");
-		sb.append("\"msg\":\"집회좀 하지마\",");
-		sb.append("\"cdate\":\"2020-12-10\"");
-		sb.append("},");
-		sb.append("{");
-		sb.append("\"comments_id\":23,");
-		sb.append("\"author\":\"batman\",");
-		sb.append("\"msg\":\"집회좀 하지마\",");
-		sb.append("\"cdate\":\"2020-12-10\"");
-		sb.append("}");	
+		
+		for(int i=0;i<list.size();i++){
+			Comments obj=list.get(i);
+			
+			sb.append("{");
+			sb.append("\"comments_id\":"+obj.getComments_id()+",");
+			sb.append("\"author\":\""+obj.getAuthor()+"\",");
+			sb.append("\"msg\":\""+obj.getMsg()+"\",");
+			sb.append("\"cdate\":\""+obj.getCdate().substring(0,10)+"\"");
+			
+			if(i <list.size()-1){
+				sb.append("},");
+			}else{
+				sb.append("}");
+			}
+		}
+		
 		sb.append("]");
 		sb.append("}");		
 	}
