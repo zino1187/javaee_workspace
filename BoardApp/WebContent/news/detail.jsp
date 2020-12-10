@@ -89,10 +89,10 @@ function asyncReply(){
 	*/
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			alert(this.responseText);
-			
+			//alert(this.responseText);
 			//전체화면 갱신이 아닌, 부분화면 갱신...(새로고침이 되지 않음)
 			//SPA==Single Page Application
+			getList(this.responseText);//코멘트 리스트 동적 출력
 		}
 	};
 	var author=$("input[name='author']").val();
@@ -103,6 +103,41 @@ function asyncReply(){
 	//반드시 open()메서드로  post 를 지정한 후에나 아래의 post 속성이 지정이 가능
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send(params);	
+}
+
+function getList(data){
+	//alert(data); //서버로부터 전송받은 응답 데이터를 출력!!
+	//json을 파싱하자!!!
+	//동적으로 태그를 생성하자!!
+	var listBox = document.getElementById("listBox");
+	listBox.innerHTML="";//기존 데이터 삭제!!!
+	var tag=""; //div가 누적될 변수 
+	
+	var json=JSON.parse(data); //파싱을 하게되면, 그 결과로 반환하는 되는 결과물은 객체가 된다..
+								//따라서 이 시점부터는 문자열에 불과했던 데이터를 객체처럼 접근하여 사용할 수 있다
+	if(json.resultCode==0){
+		alert("등록실패ㅜㅜ");
+	}else{
+		var jsonArray = json.commentsList; //배열을 반환
+		
+		//alert("현재까지 등록된 댓글의 수는 "+jsonArray.length);
+		for(var i=0;i<jsonArray.length;i++){
+			var comments=jsonArray[i]; //게시물 한건 반환(json객체)			
+			console.log(comments.comments_id);
+			console.log(comments.author);
+			console.log(comments.msg);
+			console.log(comments.cdate);
+			console.log("--------------------------------------");
+			
+		    tag+="<div>";
+		    tag+="<p class=\"msg\">"+comments.msg+"</p>";
+		    tag+="<p class=\"author\">"+comments.author+"</p>";
+		    tag+="<p class=\"cdate\">"+comments.cdate+"</p>";
+		    tag+="</div>";
+		}
+	}
+	
+	listBox.innerHTML=tag;	
 }
 
 function del(){
@@ -173,7 +208,7 @@ function reply(){
 			</tr>
 			<!-- 댓글 리스트 영역 -->
 			<tr>
-				<td>
+				<td id="listBox">
 					<%for(Comments comments : list){%>
 					<div>
 						<p class="msg"><%=comments.getMsg() %></p>
