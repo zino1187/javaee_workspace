@@ -46,13 +46,13 @@ p{
 	background:yellow;
 }
 .msg{
-	width:70%
+	width:65%
 }
 .author{
 	width:10%
 }
 .cdate{
-	width:18%
+	width:13%
 }
 
 </style>
@@ -133,11 +133,17 @@ function getList(data){
 		    tag+="<p class=\"msg\">"+comments.msg+"</p>";
 		    tag+="<p class=\"author\">"+comments.author+"</p>";
 		    tag+="<p class=\"cdate\">"+comments.cdate+"</p>";
+		    tag+="<p class=\"del\"><button type=\"button\" onClick=\"delComments("+comments.comments_id+");\">삭제</button></p>";
 		    tag+="</div>";
 		}
 	}
 	
 	listBox.innerHTML=tag;	
+}
+
+//코멘트 삭제 
+function delComments(comments_id){
+	alert(comments_id+"를 삭제하길 원해?");
 }
 
 function del(){
