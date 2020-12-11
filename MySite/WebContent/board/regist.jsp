@@ -1,4 +1,5 @@
-<%@page import="common.FileManager"%>
+<%@page import="board.model.BoardDAO"%>
+<%@page import="common.file.FileManager"%>
 <%@page import="board.model.Board"%>
 <%@page import="org.apache.commons.fileupload.FileItem"%>
 <%@page import="java.util.List"%>
@@ -6,6 +7,7 @@
 <%@page import="org.apache.commons.fileupload.disk.DiskFileItemFactory"%>
 <%@page import="org.apache.commons.fileupload.servlet.ServletFileUpload"%>
 <%@ page contentType="text/html;charset=utf-8"%>
+<%@ include file="/inc/lib.jsp" %>
 <%
 	//multipart/form-data방식으로 전송된 파라미터는 업로드 컴포넌트를 통해서 처리해야 한다.
 	
@@ -29,6 +31,8 @@
 	List<FileItem> items=upload.parseRequest(request);//요청 객체로부터 업로드 정보 뽑기!!
 	
 	Board board=new Board();
+	boolean flag=false; //업로드가 완료되었는지 여부를 알수있는 변수 
+	BoardDAO dao = new BoardDAO();
 	
 	for( FileItem item: items){
 		if(item.isFormField()){//text 입력기반의 컴포넌트라면...		
@@ -48,11 +52,18 @@
 			
 			File file =new File(realPath+"/"+newName); 
 			item.write(file);//하드디스크에 파일 생성
-			
-			out.print("업로드 완료");
+			flag=true;
 			
 			//오라클에 insert !!!
-			
+		}
+	}
+	if(flag){ //업로드가 성공되면 INSERT
+		int result = dao.insert(board);
+	
+		if(result==0){
+			out.print("등록실패");
+		}else{
+			out.print("등록성공");
 		}
 	}
 %>
