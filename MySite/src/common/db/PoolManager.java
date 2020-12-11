@@ -15,8 +15,10 @@ import javax.sql.DataSource;
 public class PoolManager {
 	InitialContext context;// JNDI검색을 담당하는 객체
 	DataSource ds; //커넥션풀
+	private static PoolManager instance;
 	
-	public PoolManager() {
+	//이 시점부터는 아무도 new할 수 없다!!
+	private PoolManager() {
 		try {
 			context = new InitialContext();//검색 객체 생성
 			ds =(DataSource)context.lookup("java:comp/env/jdbc/myoracle");//찾기 성공 and 풀반환
@@ -24,6 +26,14 @@ public class PoolManager {
 			e.printStackTrace();
 		}
 	}
+	//하지만, 클래스는 쓰라고 만든것이기에 인스턴스를 가져갈 기회를 현재 클래스에서 부담해주자!!
+	public static PoolManager getInstance() {
+		if(instance == null) {
+			instance = new PoolManager(); //오직 나만이 new할 수 있다!!!
+		}
+		return instance;
+	}
+	
 	//커넥션이 필요한 자에게 Connection을 반환해주는 (대여) 메서드 
 	public Connection getConnection() {
 		Connection con=null;
