@@ -1,3 +1,7 @@
+<%@page import="common.FileManager"%>
+<%@page import="board.model.Board"%>
+<%@page import="org.apache.commons.fileupload.FileItem"%>
+<%@page import="java.util.List"%>
 <%@page import="java.io.File"%>
 <%@page import="org.apache.commons.fileupload.disk.DiskFileItemFactory"%>
 <%@page import="org.apache.commons.fileupload.servlet.ServletFileUpload"%>
@@ -14,12 +18,48 @@
 	//조차 스스로 알아낼 수 있다..
 	String realPath = application.getRealPath("/data"); //웹사이트의 루트를 기준으로 특정 파일이나, 디렉토리를 명시하면, 스스로 현재 
 	// 웹사이트가 얹혀진 os로부터 풀경로를 구해온다
-	out.print(realPath);
+	//out.print(realPath);
 	
-	factory.setRepository(new File("D:/workspace/javaee_workspace/MySite/WebContent/data"));//임시적으로 사용할 경로
+	factory.setRepository(new File(realPath));//임시적으로 사용할 경로
 	factory.setSizeThreshold(2*1024*1024); //2M
+	factory.setDefaultCharset("utf-8");
 	
+	//아래의 객체가 업로드된 정보를 가지고 있으므로 ,파라미터 등도 뽑아낼수 있다.
 	ServletFileUpload upload = new ServletFileUpload(factory);
-
+	List<FileItem> items=upload.parseRequest(request);//요청 객체로부터 업로드 정보 뽑기!!
+	
+	Board board=new Board();
+	
+	for( FileItem item: items){
+		if(item.isFormField()){//text 입력기반의 컴포넌트라면...		
+			if(item.getFieldName().equals("title")){
+				board.setTitle(item.getString());
+			}else if(item.getFieldName().equals("writer")){
+				board.setWriter(item.getString());
+			}else if(item.getFieldName().equals("content")){
+				board.setContent(item.getString());
+			}
+		}else{//파일이라면...
+			out.print(item.getName()); //이름을 알고 있으므로, 우리가 원하는 data 경로에 파일을 생성하자!!
+			//원하는 파일명 생성!!
+			long time = System.currentTimeMillis();
+			String newName=time+"."+FileManager.getExtend(item.getName());
+			board.setFilename(newName);
+			
+			File file =new File(realPath+"/"+newName); 
+			item.write(file);//하드디스크에 파일 생성
+			
+			out.print("업로드 완료");
+			
+			//오라클에 insert !!!
+			
+		}
+	}
 %>
+
+
+
+
+
+
 
