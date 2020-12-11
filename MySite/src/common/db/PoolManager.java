@@ -19,7 +19,7 @@ public class PoolManager {
 	public PoolManager() {
 		try {
 			context = new InitialContext();//검색 객체 생성
-			ds =(DataSource)context.lookup("java:com/env/jdbc/myoracle");//찾기 성공 and 풀반환
+			ds =(DataSource)context.lookup("java:comp/env/jdbc/myoracle");//찾기 성공 and 풀반환
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
