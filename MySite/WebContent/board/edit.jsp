@@ -1,3 +1,4 @@
+<%@page import="board.model.MybatisBoardDAO"%>
 <%@page import="common.file.FileManager"%>
 <%@page import="board.model.Board"%>
 <%@page import="org.apache.commons.fileupload.FileItem"%>
@@ -10,7 +11,7 @@
 <%@ include file="/inc/lib.jsp"%>
 <%request.setCharacterEncoding("utf-8"); %>
 <%
-	BoardDAO dao=new BoardDAO();
+	MybatisBoardDAO dao=new MybatisBoardDAO();
 		
 	//파일업로드인 경우, 파라미터 처리는 파일업로드 컴포넌트를 통해서 한다!!
 	//왜? multipart/form-data에 의한 전송 파라미터 파싱한 주체 업로드 컴포넌트라서..

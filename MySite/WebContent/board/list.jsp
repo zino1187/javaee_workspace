@@ -1,10 +1,11 @@
+<%@page import="board.model.MybatisBoardDAO"%>
 <%@page import="board.model.Board"%>
 <%@page import="java.util.List"%>
 <%@page import="common.board.Pager"%>
 <%@page import="board.model.BoardDAO"%>
 <%@ page contentType="text/html;charset=utf-8"%>
 <%
-	BoardDAO dao = new BoardDAO();
+	MybatisBoardDAO dao = new MybatisBoardDAO();
 	Pager pager = new Pager();
 	List<Board> list = dao.selectAll();	
 	pager.init(request, list); //페이지 처리에 대한 계산!!
