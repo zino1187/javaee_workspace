@@ -1,3 +1,4 @@
+<%@page import="admin.member.Admin"%>
 <%@ page contentType="text/html;charset=utf-8"%>
 <%@ include file="/inc/lib.jsp" %>
 <%
@@ -11,11 +12,17 @@
 	String mid = request.getParameter("mid");
 	String password = request.getParameter("password");
 	
+	
 	//아이디가 같고, 비번까지 같다면..
 	if(mid.equals(admin_id) &&  password.equals(admin_pass)){
 		//로그인 성공에 대한 보상!! 관리자 페이지 보여주기
-		//js의 location.href와 동일한 기능의 jsp 기능 이용해보자 
-		response.sendRedirect("/admin/index.jsp"); //클라이언트로 하여금 지정한 url로 요청을 시도하게끔 하는 기능
+		//js의 location.href와 동일한 기능의 jsp 기능 이용해보자
+		Admin admin = new Admin();
+		//관리자 정보를 VO에 담자!!
+		admin.setMid(mid);
+		admin.setPassword(password);
+		
+		response.sendRedirect("/admin/index.jsp?admin="+admin); //클라이언트로 하여금 지정한 url로 요청을 시도하게끔 하는 기능
 	}else{
 		//로그인 실패에 대한 욕!!
 		out.print(getMsgBack("로그인 정보가 올바르지 않습니다"));
