@@ -67,7 +67,7 @@ $(function(){
 function edit(){
 	$("form").attr({
 		enctype:"multipart/form-data",
-		action:"regist.jsp", 
+		action:"edit.jsp", 
 		method:"post"
 	});			
 	$("form").submit();

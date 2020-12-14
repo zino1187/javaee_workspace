@@ -52,19 +52,19 @@ tr:nth-child(even) {
 		<tr>
 			<td><%=num--%></td>
 			<td><img src="/data/<%=board.getFilename()%>" width="50px"></td>
-			<td><%=board.getTitle() %></td>
+			<td><a href="/board/detail.jsp?board_id=<%=board.getBoard_id()%>"><%=board.getTitle() %></a></td>
 			<td><%=board.getWriter() %></td>
 			<td><%=board.getRegdate() %></td>
 			<td><%=board.getHit() %></td>
 		</tr>
 		<%} %>
 		<tr>
-			<td colspan="3" style="text-align:center">
+			<td colspan="6" style="text-align:center">
 				[1][2][3]
 			</td>
 		</tr>
 		<tr>
-			<td colspan="3">
+			<td colspan="6">
 				<button onClick="location.href='regist_form.jsp'">글등록</button>
 			</td>
 		</tr>

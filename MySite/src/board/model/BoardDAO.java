@@ -117,10 +117,28 @@ public class BoardDAO {
 		}
 		return result;
 	}
+	
 	//글 1건 수정 
 	public int update(Board board) {
+		Connection con=null;
+		PreparedStatement pstmt=null;
 		int result=0;
+		String sql="update board set title=?, writer=?,content=?,filename=? where board_id=?";
 		
+		con=pool.getConnection();
+		try {
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, board.getTitle());
+			pstmt.setString(2, board.getWriter());
+			pstmt.setString(3, board.getContent());
+			pstmt.setString(4, board.getFilename());
+			pstmt.setInt(5, board.getBoard_id());
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			pool.release(con, pstmt);
+		}
 		return result;
 	}
 }
