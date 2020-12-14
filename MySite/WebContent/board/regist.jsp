@@ -61,9 +61,9 @@
 		int result = dao.insert(board);
 	
 		if(result==0){
-			out.print("등록실패");
+			out.print(getMsgBack("등록실패"));
 		}else{
-			out.print("등록성공");
+			out.print(getMsgURL("등록성공", "/board/list.jsp"));
 		}
 	}
 %>

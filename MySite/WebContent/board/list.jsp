@@ -1,4 +1,14 @@
+<%@page import="board.model.Board"%>
+<%@page import="java.util.List"%>
+<%@page import="common.board.Pager"%>
+<%@page import="board.model.BoardDAO"%>
 <%@ page contentType="text/html;charset=utf-8"%>
+<%
+	BoardDAO dao = new BoardDAO();
+	Pager pager = new Pager();
+	List<Board> list = dao.selectAll();	
+	pager.init(request, list); //페이지 처리에 대한 계산!!
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,25 +35,29 @@ tr:nth-child(even) {
 
 	<table>
 		<tr>
-			<th>First Name</th>
-			<th>Last Name</th>
-			<th>Points</th>
+			<th>No</th>
+			<th>이미지</th>
+			<th>제목</th>
+			<th>작성자</th>
+			<th>등록일</th>
+			<th>조회수</th>
 		</tr>
+		<%
+			int num=pager.getNum();
+			int curPos=pager.getCurPos();
+		%>
+		<%for(int i=1;i<=pager.getPageSize();i++){ %>
+		<%if(num<1)break;%>
+		<%Board board=(Board)list.get(curPos++); %>
 		<tr>
-			<td>Jill</td>
-			<td>Smith</td>
-			<td>50</td>
+			<td><%=num--%></td>
+			<td><img src="/data/<%=board.getFilename()%>" width="50px"></td>
+			<td><%=board.getTitle() %></td>
+			<td><%=board.getWriter() %></td>
+			<td><%=board.getRegdate() %></td>
+			<td><%=board.getHit() %></td>
 		</tr>
-		<tr>
-			<td>Eve</td>
-			<td>Jackson</td>
-			<td>94</td>
-		</tr>
-		<tr>
-			<td>Adam</td>
-			<td>Johnson</td>
-			<td>67</td>
-		</tr>
+		<%} %>
 		<tr>
 			<td colspan="3" style="text-align:center">
 				[1][2][3]
