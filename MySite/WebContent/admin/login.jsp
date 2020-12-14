@@ -12,7 +12,7 @@
 	
 	//아이디가 같고, 비번까지 같다면..
 	if(mid.equals(admin_id) &&  password.equals(admin_pass)){
-		//로그인 성공에 대한 보상!!
+		//로그인 성공에 대한 보상!! 관리자 페이지 보여주기
 	}else{
 		//로그인 실패에 대한 욕!!
 	}
