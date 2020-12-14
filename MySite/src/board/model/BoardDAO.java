@@ -66,6 +66,37 @@ public class BoardDAO {
 		}
 		return list;
 	}
+	
+	//한건 가져오기 
+	public Board select(int board_id) {
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		Board board=null;
+		String sql="select * from board where board_id=?";
+		
+		con=pool.getConnection();//풀로 부터 커넥션 대여!
+		try {
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1,board_id);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				board = new Board();
+				board.setBoard_id(rs.getInt("board_id"));
+				board.setTitle(rs.getString("title"));
+				board.setWriter(rs.getString("writer"));
+				board.setContent(rs.getString("content"));
+				board.setRegdate(rs.getString("regdate"));
+				board.setHit(rs.getInt("hit"));
+				board.setFilename(rs.getString("filename"));			
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			pool.release(con, pstmt, rs);
+		}
+		return board;
+	}
 }
 
 
