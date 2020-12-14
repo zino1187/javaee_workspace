@@ -76,6 +76,7 @@ button:hover {
 //입력한 정보가 db에 존재하는지 여부 요청!! 즉 로그인 요청
 function login(){
 	form1.action="/admin/login.jsp";
+	form1.method="post";
 	form1.submit();
 }
 </script>

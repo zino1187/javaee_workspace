@@ -23,16 +23,8 @@ tr:nth-child(even) {
 </style>
 </head>
 <body>
-
-<div class="topnav">
-  <a class="active" href="/admin">Home</a>
-  <a href="/admin/member/list.jsp">회원관리</a>
-  <a href="/admin/board/list.jsp">게시판관리</a>
-  <a href="#">상품관리</a>
-</div>
-
+<%@ include file="/admin/inc/topnavi.jsp" %>
 <h2>게시판 목록</h2>
-
 <table>
   <tr>
     <th>First Name</th>
