@@ -97,6 +97,32 @@ public class BoardDAO {
 		}
 		return board;
 	}
+	
+	//게시물 1건 삭제
+	public int delete(int board_id) {
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		int result=0;
+		String sql="delete from board where board_id=?";
+		
+		con=pool.getConnection();
+		try {
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, board_id);
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			pool.release(con, pstmt);
+		}
+		return result;
+	}
+	//글 1건 수정 
+	public int update(Board board) {
+		int result=0;
+		
+		return result;
+	}
 }
 
 
