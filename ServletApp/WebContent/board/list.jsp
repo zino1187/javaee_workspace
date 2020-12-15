@@ -4,9 +4,10 @@
 <%@page import="common.board.Pager"%>
 <%@page import="board.model.BoardDAO"%>
 <%@ page contentType="text/html;charset=utf-8"%>
+<%!
+	MybatisBoardDAO dao = new MybatisBoardDAO();//속상하다..
+%>
 <%
-
-	MybatisBoardDAO dao = new MybatisBoardDAO();
 	Pager pager = new Pager();
 	List<Board> list = dao.selectAll();	
 	pager.init(request, list); //페이지 처리에 대한 계산!!

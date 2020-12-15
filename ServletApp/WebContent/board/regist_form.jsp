@@ -59,7 +59,7 @@ $(function(){
 function regist(){
 	$("form").attr({
 		enctype:"multipart/form-data",
-		action:"regist.jsp", 
+		action:"/board/regist", //서블릿에게 요청
 		method:"post"
 	});			
 	$("form").submit();
